@@ -1,7 +1,7 @@
 // GLOBAL DEFINITIONS
 
 	const backgroundColour = "#cfedfc";
-	const animSpeed = 50;
+	const animSpeed = 30;
 	var width = window.innerWidth;
 	var height = window.innerHeight - 10;
 	var draw = SVG().addTo('body').size(width, height);
@@ -24,7 +24,14 @@ function drawTextBox() {
 
 async function moveAlongPath(path, ticks, x, y, theta) {
 	for (let i = 0; i < ticks; i++) {
-		path.dmove(x, y).rotate(theta);
+		path.move(x, y).rotate(theta);
+		await sleep(animSpeed);
+	}
+}
+
+async function moveAlongPathTransform(path, ticks, x, y, theta, scale=1) {
+	for (let i = 0; i < ticks; i++) {
+		path.translate(x, y).rotate(theta).scale(scale);
 		await sleep(animSpeed);
 	}
 }
@@ -61,19 +68,25 @@ async function main() {
 	textbox = drawTextBox();
 	text = draw.text('Random Text in my Box').fill('white').font({size:24}).center(750, 550).opacity(1);
 	heartPath = drawHeartPath();
-	heartPath.scale(2).move(0, -100);
-	await moveAlongPath(heartPath, 90, -1, 1, 1);
+	heartPath.scale(4).move(0, -100);
+	let v = (1000/animSpeed) * 5;
+	await moveAlongPath(heartPath, v, 210/v, 190/v, 45/v);
 	await sleep(2000);
+	await moveAlongPath(heartPath, v, 0, 240/v, 45/v);
+	await sleep(2000);
+	await moveAlongPath(heartPath, v, 190/v, 40/v, 45/v);
+	await sleep(2000);
+	await moveAlongPath(heartPath, v, 190/v, -40/v, 45/v);
+	await sleep(2000);
+	await moveAlongPath(heartPath, v, 0, -240/v, 45/v);
+	await sleep(2000);
+	await moveAlongPath(heartPath, v, -210/v, -190/v, 45/v);
+	await sleep(2000);
+	v = (1000/animSpeed);
+	await moveAlongPathTransform(heartPath, v, 450/v, 200/v, 90/v, 0.97);
+	//heartPath.scale(0.5).move(50, -180);
 	textbox.remove();
 	text.remove();
-	await moveAlongPath(heartPath, 60, 1, -3, 1.5);
-	await sleep(2000);
-	await moveAlongPath(heartPath, 90, -1, 1, 1);
-	await sleep(2000);
-	await moveAlongPath(heartPath, 30, -1, -2, 3);
-	await sleep(2000);
-	heartPath.scale(0.5).move(50, -180);
-	await sleep(2000);
 	//heartPath.remove();
 
 	coverHeartPath();
