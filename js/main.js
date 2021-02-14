@@ -59,14 +59,14 @@ function drawHeartPath() {
 // STORY FUNCTIONS
 
 async function waitForClick() {
-	while(!waiting) {
+	while(waiting) {
 		await sleep(1000);
 	}
-	waiting = false;
+	waiting = true;
 }
 
 async function turnPage() {
-	waiting = true;
+	waiting = false;
 }
 
 async function main() {
