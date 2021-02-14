@@ -5,6 +5,7 @@
 	var width = window.innerWidth;
 	var height = window.innerHeight - 10;
 	var draw = SVG().addTo('body').size(width, height);
+	var waiting = true;
 
 // UTILITY FUNCTIONS
 function sleep(ms) {
@@ -55,87 +56,91 @@ function drawHeartPath() {
 	return arcPath;
 }
 
-function coverHeartPath() {
-
-}
-
 // STORY FUNCTIONS
 
+async function waitForClick() {
+	while(!waiting) {
+		await sleep(1000);
+	}
+	waiting = false;
+}
+
 async function turnPage() {
-	var page = 0;
-	await sleep(1000);
-	page += 1;
+	waiting = true;
 }
 
 async function main() {
 
 	window.addEventListener("resize", resizeDrawbox);
+	window.addEventListener("click", turnPage);
+
     textbox = drawTextBox();
     imageBox = drawImageBox('image/1.png');
 
 	heartPath = drawHeartPath();
 	heartPath.scale(2).move(0, -100);
     let v = (1000/animSpeed) * 5;
+
     text = draw.text('On a snowy Valentine\'s Day, \nJasper Bunny still could not think \nof a gift good enough for Lilly.\nJasper loved his wife very much. \nSo he couldn\'t give her just any old gift.').fill('white').font({size:24}).center(750, 550).opacity(1);
-    await sleep(5000);
+    await waitForClick();
+
     text.remove();
     text = draw.text('"Perhaps seeing what my \nneighbors are doing for Valentine\'s Day \nwill give me and idea for the perfect \npresent." he thought.').fill('white').font({size:24}).center(750, 550).opacity(1);
-    await sleep(5000);
+    await waitForClick();
+
     text.remove();
     textbox.remove();
     imageBox.remove();
 	await moveAlongPath(heartPath, v, 210/v, 190/v, 45/v);
-    await sleep(2000);
     textbox = drawTextBox();
     text = draw.text('"He stopped at the Porcupines\' house. \n"We are each knitting a scarf for \nMother." said the seven porcupine children.').fill('white').font({size:24}).center(750, 550).opacity(1);
     imageBox = drawImageBox('image/2.png');
-    await sleep(5000);
+    await waitForClick();
+
     text.remove();
     imageBox.remove();
     imageBox = drawImageBox('image/3.png');
     text = draw.text('"A handmade scarf did seem \nlike a good gift for Lilly,\n but Jasper couldn\'t get \nthe hang of knitting.').fill('white').font({size:24}).center(750, 550).opacity(1);
-    await sleep(5000);
+    await waitForClick();
+
     imageBox.remove();
     text.remove();
     textbox.remove();
-    await sleep(1000);
     textbox = drawTextBox();
     text = draw.text('On his way, Jasper \nsaw a glow coming from the Frogs\' window.\n"I bet Miriam will have\na good suggestion." thought Jasper.').fill('white').font({size:24}).center(750, 550).opacity(1);
-    await sleep(5000);
+    await waitForClick();
+
     text.remove();
     textbox.remove();
     await moveAlongPath(heartPath, v, 0, 240/v, 45/v);
     textbox = drawTextBox();
     text = draw.text('Inside, Miriam showed Jasper \na box fill of chocolate-covered \nflies. "Landon will be so\nexcited when he wakes up!" she whispered.\n"I\'m sure he will." Jasper agreed pleasantly."').fill('white').font({size:24}).center(750, 550).opacity(1);
+    await waitForClick();
     text.remove();
-    await sleep(2000);
-    text = draw.text('He thought, "This is a treat for a frog-but it\'s definitely not something my Lilly would enjoy!"').fill('white').font({size:24}).center(750, 550).opacity(1);
+
+    text = draw.text('He thought, "This is a treat for a frog-\nbut it\'s definitely not something my Lilly would enjoy!"').fill('white').font({size:24}).center(750, 550).opacity(1);
+    await waitForClick();
     text.remove();
     textbox.remove();
-	await sleep(2000);
+
 	await moveAlongPath(heartPath, v, 190/v, 40/v, 45/v);
-	await sleep(2000);
+    await waitForClick();
+
 	await moveAlongPath(heartPath, v, 190/v, -40/v, 45/v);
-	await sleep(2000);
+    await waitForClick();
+
 	await moveAlongPath(heartPath, v, 0, -240/v, 45/v);
-	await sleep(2000);
+    await waitForClick();
+
 	await moveAlongPath(heartPath, v, -210/v, -190/v, 45/v);
-	await sleep(2000);
+    await waitForClick();
+
 	v = (1000/animSpeed);
 	await moveAlongPathTransform(heartPath, v, 450/v, 200/v, 90/v, 0.98);
 	//heartPath.scale(0.5).move(50, -180);
 	textbox.remove();
 	text.remove();
 	//heartPath.remove();
-
-	coverHeartPath();
-	window.addEventListener("click", turnPage);
-	//let circ = drawCircle(draw);
-	//let rec = draw.rect(width / 3, height / 3).fill('#11aabb').move(width / 3, height / 3);
-	//let gr = draw.group().add(circ).add(rec);
-	//await sleep(2000);
-	//gr.rotate(45).scale(.5);
-
 }
 
 main();
