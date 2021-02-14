@@ -68,7 +68,7 @@ async function main() {
 	textbox = drawTextBox();
 	text = draw.text('Random Text in my Box').fill('white').font({size:24}).center(750, 550).opacity(1);
 	heartPath = drawHeartPath();
-	heartPath.scale(4).move(0, -100);
+	heartPath.scale(2).move(0, -100);
 	let v = (1000/animSpeed) * 5;
 	await moveAlongPath(heartPath, v, 210/v, 190/v, 45/v);
 	await sleep(2000);
@@ -83,7 +83,7 @@ async function main() {
 	await moveAlongPath(heartPath, v, -210/v, -190/v, 45/v);
 	await sleep(2000);
 	v = (1000/animSpeed);
-	await moveAlongPathTransform(heartPath, v, 450/v, 200/v, 90/v, 0.97);
+	await moveAlongPathTransform(heartPath, v, 450/v, 200/v, 90/v, 0.98);
 	//heartPath.scale(0.5).move(50, -180);
 	textbox.remove();
 	text.remove();
