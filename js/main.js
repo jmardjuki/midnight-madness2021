@@ -5,7 +5,7 @@
 	var width = window.innerWidth;
 	var height = window.innerHeight - 10;
 	var draw = SVG().addTo('body').size(width, height);
-	var waiting = false;
+	var waiting = true;
 
 // UTILITY FUNCTIONS
 function sleep(ms) {
