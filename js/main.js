@@ -1,7 +1,7 @@
 // GLOBAL DEFINITIONS
 
 	const backgroundColour = "#cfedfc";
-	const animSpeed = 50;
+	const animSpeed = 30;
 	var width = window.innerWidth;
 	var height = window.innerHeight - 10;
 	var draw = SVG().addTo('body').size(width, height);
@@ -30,7 +30,14 @@ function drawImageBox(imageLink) {
 
 async function moveAlongPath(path, ticks, x, y, theta) {
 	for (let i = 0; i < ticks; i++) {
-		path.dmove(x, y).rotate(theta);
+		path.move(x, y).rotate(theta);
+		await sleep(animSpeed);
+	}
+}
+
+async function moveAlongPathTransform(path, ticks, x, y, theta, scale=1) {
+	for (let i = 0; i < ticks; i++) {
+		path.translate(x, y).rotate(theta).scale(scale);
 		await sleep(animSpeed);
 	}
 }
@@ -65,17 +72,20 @@ async function main() {
 	window.addEventListener("resize", resizeDrawbox);
     textbox = drawTextBox();
     imageBox = drawImageBox('image/1.png');
-	text = draw.text('On a snowy Valentine\'s Day, \nJasper Bunny still could not think \nof a gift good enough for Lilly.\nJasper loved his wife very much. \nSo he couldn\'t give her just any old gift.').fill('white').font({size:24}).center(750, 550).opacity(1);
+
 	heartPath = drawHeartPath();
-    heartPath.scale(2).move(0, -100);
-    await sleep(8000);
+	heartPath.scale(2).move(0, -100);
+    let v = (1000/animSpeed) * 5;
+    text = draw.text('On a snowy Valentine\'s Day, \nJasper Bunny still could not think \nof a gift good enough for Lilly.\nJasper loved his wife very much. \nSo he couldn\'t give her just any old gift.').fill('white').font({size:24}).center(750, 550).opacity(1);
+    await sleep(5000);
     text.remove();
     text = draw.text('"Perhaps seeing what my \nneighbors are doing for Valentine\'s Day \nwill give me and idea for the perfect \npresent." he thought.').fill('white').font({size:24}).center(750, 550).opacity(1);
     await sleep(5000);
     text.remove();
     textbox.remove();
     imageBox.remove();
-    await moveAlongPath(heartPath, 90, -1, 1, 1);
+	await moveAlongPath(heartPath, v, 210/v, 190/v, 45/v);
+    await sleep(2000);
     textbox = drawTextBox();
     text = draw.text('"He stopped at the Porcupines\' house. \n"We are each knitting a scarf for \nMother." said the seven porcupine children.').fill('white').font({size:24}).center(750, 550).opacity(1);
     imageBox = drawImageBox('image/2.png');
@@ -94,7 +104,7 @@ async function main() {
     await sleep(5000);
     text.remove();
     textbox.remove();
-    await moveAlongPath(heartPath, 60, 1, -3, 1.5);
+    await moveAlongPath(heartPath, v, 0, 240/v, 45/v);
     textbox = drawTextBox();
     text = draw.text('Inside, Miriam showed Jasper \na box fill of chocolate-covered \nflies. "Landon will be so\nexcited when he wakes up!" she whispered.\n"I\'m sure he will." Jasper agreed pleasantly."').fill('white').font({size:24}).center(750, 550).opacity(1);
     text.remove();
@@ -102,12 +112,20 @@ async function main() {
     text = draw.text('He thought, "This is a treat for a frog-but it\'s definitely not something my Lilly would enjoy!"').fill('white').font({size:24}).center(750, 550).opacity(1);
     text.remove();
     textbox.remove();
-	await moveAlongPath(heartPath, 90, -1, 1, 1);
 	await sleep(2000);
-	await moveAlongPath(heartPath, 30, -1, -2, 3);
+	await moveAlongPath(heartPath, v, 190/v, 40/v, 45/v);
 	await sleep(2000);
-	heartPath.scale(0.5).move(50, -180);
+	await moveAlongPath(heartPath, v, 190/v, -40/v, 45/v);
 	await sleep(2000);
+	await moveAlongPath(heartPath, v, 0, -240/v, 45/v);
+	await sleep(2000);
+	await moveAlongPath(heartPath, v, -210/v, -190/v, 45/v);
+	await sleep(2000);
+	v = (1000/animSpeed);
+	await moveAlongPathTransform(heartPath, v, 450/v, 200/v, 90/v, 0.98);
+	//heartPath.scale(0.5).move(50, -180);
+	textbox.remove();
+	text.remove();
 	//heartPath.remove();
 
 	coverHeartPath();
