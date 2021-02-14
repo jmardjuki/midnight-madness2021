@@ -79,7 +79,7 @@ async function main() {
 
 	heartPath = drawHeartPath();
 	heartPath.scale(2).move(0, -100);
-    let v = (1000/animSpeed) * 5;
+    let v = (1000/animSpeed) * 2;
 
     text = draw.text('On a snowy Valentine\'s Day, \nJasper Bunny still could not think \nof a gift good enough for Lilly.\nJasper loved his wife very much. \nSo he couldn\'t give her just any old gift.').fill('white').font({size:24}).center(750, 550).opacity(1);
     await waitForClick();
