@@ -1,10 +1,10 @@
 // GLOBAL DEFINITIONS
 
-	const backgroundColour = "#cfedfc"
+	const backgroundColour = "#cfedfc";
+	const animSpeed = 50;
 	var width = window.innerWidth;
 	var height = window.innerHeight - 10;
 	var draw = SVG().addTo('body').size(width, height);
-
 
 // UTILITY FUNCTIONS
 function sleep(ms) {
@@ -17,10 +17,18 @@ function resizeDrawbox() {
 	draw.viewbox(0, 0, window.innerWidth, window.innerHeight - 10);
 }
 
-function drawCircle() {
-	let circ = draw.circle(100).fill('#f06').move(50, 50);
+function drawTextBox() {
+	let circ = draw.rect(500, 300).radius(15).fill('#1a232f').move(500, 400);
 	return circ;
 }
+
+async function moveAlongPath(path, ticks, x, y, theta) {
+	for (let i = 0; i < ticks; i++) {
+		path.dmove(x, y).rotate(theta);
+		await sleep(animSpeed);
+	}
+}
+
 function drawHeartPath() {
 	//const template = draw.path('M140 20C73 20 20 74 20 140c0 135 136 170 228 303 88-132 229-173 229-303 0-66-54-120-120-120-48 0-90 28-109 69-19-41-60-69-108-69z')
 	// .stroke('pink')
@@ -40,9 +48,9 @@ function coverHeartPath() {
 
 // STORY FUNCTIONS
 
-function turnPage() {
+async function turnPage() {
 	var page = 0;
-	sleep(1000);
+	await sleep(1000);
 	page += 1;
 }
 
@@ -50,26 +58,23 @@ function turnPage() {
 async function main() {
 
 	window.addEventListener("resize", resizeDrawbox);
+	textbox = drawTextBox();
+	text = draw.text('Random Text in my Box').fill('white').font({size:24}).center(750, 550).opacity(1);
 	heartPath = drawHeartPath();
-	heartPath.scale(3).move(0, -150);
-	for (let i = 0; i <= 80; i++) {
-		await sleep(50);
-		heartPath.dmove(0, 5);
-	}
-	for (let i = 0; i <= 60; i++) {
-		await sleep(50);
-		heartPath.dmove(5, 0);
-	}
-	for (let i = 0; i <= 80; i++) {
-		await sleep(50);
-		heartPath.dmove(0, -5);
-	}
-	for (let i = 0; i <= 30; i++) {
-		await sleep(50);
-		heartPath.dmove(-5, 0);
-	}
+	heartPath.scale(2).move(0, -100);
+	await moveAlongPath(heartPath, 90, -1, 1, 1);
 	await sleep(2000);
-	heartPath.scale(0.3).move(200, 500);
+	textbox.remove();
+	text.remove();
+	await moveAlongPath(heartPath, 60, 1, -3, 1.5);
+	await sleep(2000);
+	await moveAlongPath(heartPath, 90, -1, 1, 1);
+	await sleep(2000);
+	await moveAlongPath(heartPath, 30, -1, -2, 3);
+	await sleep(2000);
+	heartPath.scale(0.5).move(50, -180);
+	await sleep(2000);
+	//heartPath.remove();
 
 	coverHeartPath();
 	window.addEventListener("click", turnPage);
