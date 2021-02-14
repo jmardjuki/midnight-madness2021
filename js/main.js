@@ -241,7 +241,6 @@ async function main() {
     imageBox = drawImageBox('image/18.png');
 	//heartPath.scale(0.5).move(50, -180);
     await waitForClick();
-    imageBox.remove();
 
 	//heartPath.remove();
 }
