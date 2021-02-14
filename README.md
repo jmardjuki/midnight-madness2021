@@ -12,13 +12,25 @@ Step out into a snowy Valentine's Day with Jasper the bunny as he searches the f
 2. Presentation day is on Valentine's day (14th Feb)
 3. It's a very heartwarming story that would warm up your snowy Valentine
 
+## Dependencies
+- SVG.js
+https://svgjs.com/docs/3.0/
+
+## How to run?
+- Clone this repository
+- Open index.html using web browser
+- Click through after each text
+
 ## Future Features
 - Play audio for every paragraph
 - Snow step audio for every movement
 - Reference point on every stop
 - Actual movement of Jasper on the map
 
-### Team Members
+## Team Members
 - Warren Lee
 - Janet Mardjuki
   
+## Source
+- Story and image used
+<br>https://www.youtube.com/watch?v=Zj0DdByNwwc
